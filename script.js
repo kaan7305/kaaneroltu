@@ -2,11 +2,9 @@ let menuIcon = document.querySelector('#menu-icon');
 let navbar = document.querySelector('.navbar');
 
 menuIcon.onclick = () => {
-    menuIcon.classList.toggle('bx-x');
-    navbar.classList.toggle('active');
-
+    menuIcon.classList.toggle('bx-x'); // Toggles the close icon
+    navbar.classList.toggle('active');  // Toggles the menu visibility
 };
-
 
 let sections = document.querySelectorAll('section');
 let navLinks = document.querySelectorAll('header nav a');
@@ -18,35 +16,28 @@ window.onscroll = () => {
         let height = sec.offsetHeight;
         let id = sec.getAttribute('id');
 
-        if(top >= offset && top  < offset + height){
+        if (top >= offset && top < offset + height) {
             navLinks.forEach(links => {
                 links.classList.remove('active');
-                document.querySelector('header nav a[href*=' + id +']').classList.add('active');
-
-
+                document.querySelector('header nav a[href*=' + id + ']').classList.add('active');
             });
-
-        };
-
+        }
     });
 
     let header = document.querySelector('header');
     header.classList.toggle('sticky', window.scrollY > 100);
 
+    menuIcon.classList.remove('bx-x');  // Ensures the icon reverts when scrolling
+    navbar.classList.remove('active');  // Ensures the menu closes when scrolling
+};
 
-    menuIcon.classList.remove('bx-x');
-    navbar.classList.remove('active');
-
-}
-
-ScrollReveal({ 
+ScrollReveal({
     reset: true,
     distance: '80px',
     duration: 1500,
     delay: 150
 });
 
-// Apply reveal to each element or group with appropriate options
 ScrollReveal().reveal('.home-content', { origin: 'top' });
 ScrollReveal().reveal('.heading', { origin: 'top' });
 ScrollReveal().reveal('.home-img', { origin: 'bottom' });
@@ -59,13 +50,11 @@ ScrollReveal().reveal('.home-content p', { origin: 'right' });
 ScrollReveal().reveal('.about-content', { origin: 'right' });
 
 const typed = new Typed('.multiple-text', {
-    strings: ['Student', 'Tennis Player', 'Researcher' ],
+    strings: ['Student', 'Tennis Player', 'Researcher'],
     typeSpeed: 100,
     backSpeed: 100,
     backDelay: 100,
     loop: true
-
-
 });
 
 const typedAbout = new Typed('.typed-about', {
@@ -82,4 +71,3 @@ const typedAbout = new Typed('.typed-about', {
     backDelay: 1000,
     loop: true
 });
-
