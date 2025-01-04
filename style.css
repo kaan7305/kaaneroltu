@@ -309,42 +309,42 @@ span{
 
 }
 
-img[src="/Users/kaaneroltu/Desktop/JavaScriptFolder/ttomatoleaf.jpg"] {
+img[src="ttomatoleaf.jpg"] {
     width: 568.7px; /* Match the rendered width of Kaan.jpg */
     height: 568.7px; /* Force height to match */
     background-size: fill;
     object-fit: fill; /* Crop to fit a square */
 }
 
-img[src="/Users/kaaneroltu/Desktop/JavaScriptFolder/breastcancer.jpg"] {
+img[src="breastcancer.jpg"] {
     width: 568.7px; /* Match the rendered width of Kaan.jpg */
     height: 568.7px; /* Force height to match */
     background-size: fill;
     object-fit: fill; /* Crop to fit a square */
 }
 
-img[src="/Users/kaaneroltu/Desktop/JavaScriptFolder/MRI.jpg"] {
+img[src="MRI.jpg"] {
     width: 568.7px; /* Match the rendered width of Kaan.jpg */
     height: 568.7px; /* Force height to match */
     background-size: fill;
     object-fit: fill; /* Crop to fit a square */
 }
 
-img[src="/Users/kaaneroltu/Desktop/JavaScriptFolder/transfer.jpg"] {
+img[src="transfer.jpg"] {
     width: 568.7px; /* Match the rendered width of Kaan.jpg */
     height: 568.7px; /* Force height to match */
     background-size: fill;
     object-fit: fill; /* Crop to fit a square */
 }
 
-img[src="/Users/kaaneroltu/Desktop/JavaScriptFolder/alzheimerss.jpeg"] {
+img[src="alzheimerss.jpeg"] {
     width: 568.7px; /* Match the rendered width of Kaan.jpg */
     height: 568.7px; /* Force height to match */
     background-size: fill;
     object-fit: fill; /* Crop to fit a square */
 }
 
-img[src="/Users/kaaneroltu/Desktop/JavaScriptFolder/chem.jpg"] {
+img[src="chem.jpg"] {
     width: 568.7px; /* Match the rendered width of Kaan.jpg */
     height: 568.7px; /* Force height to match */
     background-size: fill;
