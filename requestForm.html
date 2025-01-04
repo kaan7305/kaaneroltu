@@ -1,0 +1,74 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request CV</title>
+    <link rel="stylesheet" href="style.css"> <!-- Link your existing styles -->
+    <style>
+        .contact {
+            position: relative;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            transition: transform 0.5s ease-in-out;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .go-back {
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .contact:hover .go-back {
+            top: 0;
+            opacity: 1;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="contact">
+        <h2 class="heading">Request <span>My CV</span></h2>
+        <form action="https://api.web3forms.com/submit" method="POST" method="post">
+            <div class="input-box">
+                <input type="text" name="fullName" placeholder="Full Name" required="">
+                <input type="email" name="emailAddress" placeholder="Your Email Address" required="">
+            </div>
+            <input type="hidden" name="access_key" value="fea7d166-544a-4023-9431-73e16defa73c">
+            <div class="input-box">
+                <input type="text" name="mobileNumber" placeholder="Mobile Number" required="">
+                <input type="text" name="emailSubject" placeholder="Email Subject" required="">
+            </div>
+            <textarea name="reason" cols="30" rows="5" placeholder="Why do you need my CV?" required=""></textarea>
+            <textarea name="purpose" cols="30" rows="5" placeholder="What purpose will you use my CV for?" required=""></textarea>
+            <textarea name="message" cols="30" rows="5" placeholder="Additional Details or Message"></textarea>
+            <input type="submit" value="Submit Request" class="btn">
+        </form>
+        <div class="btn-container">
+            <a href="index.html" class="btn go-back">Go Back</a> <!-- Change index.html to your main page's file -->
+        </div>
+    </section>
+
+
+</body></html>
