@@ -83,7 +83,7 @@ section {
 }
 
 .home-img img{
-    width: 70vw;
+    width: 400px;
     height: auto;
     animation: floatImage 4s ease-in-out infinite;
 }
