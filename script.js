@@ -50,7 +50,7 @@ ScrollReveal().reveal('.home-content p', { origin: 'right' });
 ScrollReveal().reveal('.about-content', { origin: 'right' });
 
 const typed = new Typed('.multiple-text', {
-    strings: ['Student', 'Tennis Player', 'Researcher'],
+    strings: ['Student', 'Computer Scientist', 'Electrical Engineering'],
     typeSpeed: 100,
     backSpeed: 100,
     backDelay: 100,
