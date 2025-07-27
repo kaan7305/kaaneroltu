@@ -5,207 +5,648 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kaan Eroltu</title>
+    <title>Kaan Eroltu | Advanced Portfolio</title>
 
     <!-- box icons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
-    <!-- custom css -->
-    <link rel="stylesheet" href="style.css">
+    <!-- Custom CSS Embedded -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            border: none;
+            outline: none;
+            scroll-behavior: smooth;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --bg-color: #080b10;
+            --second-bg-color: #111827;
+            --text-color: #e5e7eb;
+            --main-color: #00aaff;
+            --glow-color: rgba(0, 170, 255, 0.75);
+            --font-tech: 'Orbitron', sans-serif;
+        }
+
+        html {
+            font-size: 62.5%;
+            overflow-x: hidden;
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            overflow-y: auto; 
+        }
+
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 10rem 9% 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem 9%;
+            background: rgba(8, 11, 16, 0.7);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        .header.sticky {
+            background: rgba(8, 11, 16, 0.9);
+            border-bottom: 1px solid var(--main-color);
+            box-shadow: 0 0 20px var(--glow-color);
+        }
+
+        .logo {
+            font-family: var(--font-tech);
+            font-size: 2.8rem;
+            color: var(--text-color);
+            font-weight: 700;
+            cursor: default;
+            text-shadow: 0 0 10px var(--glow-color);
+        }
+
+        .navbar a {
+            font-size: 1.7rem;
+            color: var(--text-color);
+            margin-left: 4rem;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+
+        .navbar a:hover,
+        .navbar a.active {
+            color: var(--main-color);
+            text-shadow: 0 0 10px var(--glow-color);
+        }
+
+        #menu-icon {
+            font-size: 3.6rem;
+            color: var(--text-color);
+            display: none;
+            cursor: pointer;
+        }
+
+        .home {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .home-content {
+            max-width: 60rem;
+        }
+
+        .home-content h3 {
+            font-size: 3.2rem;
+            font-weight: 700;
+        }
+
+        .home-content .article {
+            color: var(--main-color);
+        }
+
+        .home-content h3:nth-of-type(2) {
+            margin-bottom: 2rem;
+        }
+
+        .home-content h1 {
+            font-family: var(--font-tech);
+            font-size: 6rem;
+            font-weight: 900;
+            line-height: 1.2;
+            text-shadow: 0 0 25px var(--glow-color);
+        }
+
+        .home-content p {
+            font-size: 1.6rem;
+            line-height: 1.8;
+        }
+
+        .social-media a {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 4rem;
+            height: 4rem;
+            background: transparent;
+            border: 0.2rem solid var(--main-color);
+            border-radius: 50%;
+            font-size: 2rem;
+            color: var(--main-color);
+            margin: 3rem 1.5rem 3rem 0;
+            transition: 0.5s ease;
+        }
+
+        .social-media a:hover {
+            background: var(--main-color);
+            color: var(--second-bg-color);
+            box-shadow: 0 0 2rem var(--glow-color);
+            transform: translateY(-5px);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: var(--main-color);
+            border-radius: 4rem;
+            box-shadow: 0 0 1.5rem var(--glow-color);
+            font-size: 1.6rem;
+            color: var(--bg-color);
+            letter-spacing: 0.1rem;
+            font-weight: 600;
+            transition: 0.5s ease;
+            border: 2px solid var(--main-color);
+        }
+
+        .btn:hover {
+            background: transparent;
+            color: var(--main-color);
+            box-shadow: 0 0 2.5rem var(--glow-color);
+        }
+
+        .about {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4rem;
+            background: var(--second-bg-color);
+        }
+
+        .about-img img {
+            width: 35vw;
+            border-radius: 2rem;
+            box-shadow: 0 0 3rem var(--glow-color);
+            border: 3px solid var(--main-color);
+        }
+
+        .heading {
+            text-align: center;
+            font-size: 4.5rem;
+            font-family: var(--font-tech);
+        }
+
+        span {
+            color: var(--main-color);
+            text-shadow: 0 0 10px var(--glow-color);
+        }
+
+        .about-content {
+            text-align: left;
+        }
+
+        .about-content h2 {
+            text-align: left;
+            line-height: 1.2;
+        }
+
+        .about-content h3 {
+            font-size: 2.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-content p {
+            font-size: 1.6rem;
+            margin: 1rem 0;
+        }
+
+        .services {
+            background: var(--bg-color);
+        }
+
+        .services h2 {
+            margin-bottom: 5rem;
+        }
+
+        .services-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .services-container .services-box {
+            flex: 1 1 30rem;
+            background: var(--second-bg-color);
+            padding: 3rem 2rem 4rem;
+            border-radius: 2rem;
+            text-align: center;
+            border: 0.2rem solid var(--bg-color);
+            transition: 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .services-container .services-box:hover {
+            border-color: var(--main-color);
+            transform: translateY(-1rem);
+            box-shadow: 0 0 2rem var(--glow-color);
+        }
+
+        .services-box i {
+            font-size: 7rem;
+            color: var(--main-color);
+            text-shadow: 0 0 15px var(--glow-color);
+            transition: 0.5s ease;
+        }
+
+        .services-box:hover i {
+            transform: scale(1.1);
+        }
+
+        .services-box h3 {
+            font-family: var(--font-tech);
+            font-size: 2.6rem;
+        }
+
+        .services-box p {
+            font-size: 1.6rem;
+            margin: 1rem 0 3rem;
+        }
+
+        .services-box .btn {
+            margin-top: auto;
+        }
+
+        .portfolio {
+            background: var(--second-bg-color);
+        }
+
+        .portfolio h2 {
+            margin-bottom: 4rem;
+        }
+
+        .portfolio-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .portfolio-container .portfolio-box {
+            position: relative;
+            border-radius: 2rem;
+            box-shadow: 0 0 1rem rgba(0,0,0,0.5);
+            overflow: hidden;
+            display: flex;
+            border: 2px solid transparent;
+            transition: 0.5s ease;
+        }
+
+        .portfolio-container .portfolio-box:hover {
+            border-color: var(--main-color);
+            box-shadow: 0 0 2.5rem var(--glow-color);
+        }
+
+        .portfolio-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s ease;
+        }
+
+        .portfolio-box:hover img {
+            transform: scale(1.1);
+        }
+
+        .portfolio-box .portfolio-layer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.2), var(--main-color));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 0 4rem;
+            transform: translateY(100%);
+            transition: 0.5s ease;
+        }
+
+        .portfolio-box:hover .portfolio-layer {
+            transform: translateY(0);
+        }
+
+        .portfolio-layer h4 {
+            font-size: 2.2rem; /* Adjusted for longer titles */
+        }
+
+        .portfolio-layer p {
+            font-size: 1.4rem; /* Adjusted for more text */
+            margin: 0.3rem 0 1rem;
+        }
+
+        .portfolio-layer a {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 5rem;
+            height: 5rem;
+            background: var(--text-color);
+            border-radius: 50%;
+        }
+
+        .portfolio-layer a i {
+            font-size: 2rem;
+            color: var(--second-bg-color);
+        }
+
+        .contact {
+            background: var(--bg-color);
+        }
+
+        .contact h2 {
+            margin-bottom: 3rem;
+        }
+
+        .contact form {
+            max-width: 70rem;
+            margin: 1rem auto;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .contact form .input-box {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .contact form .input-box input,
+        .contact form textarea {
+            width: 100%;
+            padding: 1.5rem;
+            font-size: 1.6rem;
+            color: var(--text-color);
+            background: var(--second-bg-color);
+            border-radius: 0.8rem;
+            margin: 0.7rem 0;
+            border: 2px solid transparent;
+            transition: 0.3s ease;
+        }
+
+        .contact form .input-box input:focus,
+        .contact form textarea:focus {
+            border-color: var(--main-color);
+            box-shadow: 0 0 1rem var(--glow-color);
+        }
+
+        .contact form .input-box input {
+            width: 49%;
+        }
+
+        .contact form textarea {
+            resize: none;
+        }
+
+        .contact form .btn {
+            margin-top: 2rem;
+            cursor: pointer;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 2rem 9%;
+            background: var(--second-bg-color);
+        }
+
+        .footer-text p {
+            font-size: 1.6rem;
+        }
+
+        .footer-iconTop a {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.8rem;
+            background: var(--main-color);
+            border-radius: 0.8rem;
+            transition: 0.5s ease;
+        }
+
+        .footer-iconTop a:hover {
+            box-shadow: 0 0 1rem var(--glow-color);
+        }
+
+        .footer-iconTop a i {
+            font-size: 2.4rem;
+            color: var(--second-bg-color);
+        }
+
+        @media (max-width: 1200px) { html { font-size: 55%; } }
+        @media (max-width: 991px) {
+            .header { padding: 2rem 3%; }
+            section { padding: 10rem 3% 2rem; }
+            .services, .portfolio { padding-bottom: 7rem; }
+            .contact { min-height: auto; }
+            .footer { padding: 2rem 3%; }
+        }
+        @media (max-width: 768px) {
+            #menu-icon { display: block; }
+            .navbar {
+                position: absolute;
+                top: 100%;
+                left: -100%;
+                width: 100%;
+                padding: 1rem 3%;
+                background: var(--second-bg-color);
+                border-top: 0.1rem solid rgba(0, 0, 0, 0.2);
+                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+                transition: .25s ease;
+                transition-delay: .25s;
+            }
+            .navbar.active { left: 0; transition-delay: 0s; }
+            .navbar a { display: block; font-size: 2rem; margin: 3rem 0; text-align: center; }
+            .home { flex-direction: column; }
+            .home-content h3 { font-size: 2.6rem; }
+            .home-content h1 { font-size: 5rem; }
+            .about { flex-direction: column-reverse; text-align: center; }
+            .about-content h2 { text-align: center; }
+            .about-img img { width: 70vw; margin-top: 4rem; }
+            .services h2, .portfolio h2 { margin-bottom: 3rem; }
+        }
+        @media (max-width: 617px) { .portfolio-container { grid-template-columns: 1fr; } }
+        @media (max-width: 450px) {
+            html { font-size: 50%; }
+            .contact form .input-box input { width: 100%; }
+        }
+        @media (max-width: 365px) {
+            .about-img img { width: 90vw; }
+            .footer { flex-direction: column-reverse; }
+            .footer p { text-align: center; margin-top: 2rem; }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- header design -->
+    <canvas id="bg-canvas"></canvas>
+
     <header class="header">
-        <a href="#home" class="logo">Kaan Eroltu</a>
+        <a href="#home" class="logo">Kaan Eroltu.</a>
         <i class='bx bx-menu' id="menu-icon"></i>
         <nav class="navbar">
             <a href="#home" class="active">Home</a>
             <a href="#about">About</a>
-            <a href="#services">Skill Enhancement</a>
-            <a href="#portfolio">Research Projects</a>
+            <a href="#services">Skills</a>
+            <a href="#portfolio">Projects</a>
             <a href="#contact">Contact</a>
         </nav>
     </header>
 
-    <!-- body design-->
     <section class="home" id="home">
         <div class="home-content">
             <h3>Hello, This is</h3>
             <h1>Kaan Eroltu</h1>
-            <h3>I'm a <span class= "multiple-text"></span></span></h3>
-            <p>I am a student at Johns Hopkins University, pursuing studies in Computer Science and Electrical Engineering, with a focus on Artificial Intelligence, 
-                Machine Learning, and Medicine.
-            </p>
+            <h3>I'm <span class="article">a</span> <span class="multiple-text"></span></h3>
+            <p>A Johns Hopkins student specializing in Computer Science and Electrical Engineering, with a passion for AI, Machine Learning, and their applications in Medicine.</p>
             <div class="social-media">
-                <a href="https://scholar.google.com/citations?user=0jnqoNQAAAAJ&hl=en&oi=ao"><i class='bx bxl-google'></i></a>
-                <a href="https://www.linkedin.com/in/kaan-eroltu-057b79218/"><i class='bx bxl-linkedin'></i></a>
-                <a href="https://www.instagram.com/ka73er/?hl=en"><i class='bx bxl-instagram'></i></a>
+                <a href="https://scholar.google.com/citations?user=0jnqoNQAAAAJ&hl=en&oi=ao" style="--i:7;"><i class='bx bxl-google'></i></a>
+                <a href="https://www.linkedin.com/in/kaan-eroltu-057b79218/" style="--i:8;"><i class='bx bxl-linkedin'></i></a>
+                <a href="https://www.instagram.com/ka73er/?hl=en" style="--i:9;"><i class='bx bxl-instagram'></i></a>
             </div>
             <a href="requestForm.html" class="btn">Download CV</a>
         </div>
-        <div class="home-img">
-            <img src="Kaan.jpg" alt="Photo of Kaan Eroltu">
-        </div>
     </section>
 
-    <!-- about section design-->
-     <section class="about" id="about">
+    <section class="about" id="about">
         <div class="about-img">
-            <img src="Kaan.jpg" alt="">
+            <img src="https://placehold.co/600x600/111827/00aaff?text=K.E." alt="Kaan Eroltu'nun Fotoğrafı">
         </div>
-
         <div class="about-content">
-            <h2 class="heading"> About <span>Me</span></h2>
-            <p>
-                <span class="typed-about"></span>
-            </p>
-            <a href="https://www.linkedin.com/in/kaan-eroltu-057b79218/" class="btn">Read More</a>
+            <h2 class="heading">About <span>Me</span></h2>
+             <p>I am Kaan Eroltu, a Hodson Scholar at Johns Hopkins University, where I pursue a Bachelor of Science degree in Computer Science and Electrical Engineering. Having an interest in interdisciplinary research, I have been part of a variety of research projects ranging from quantum mechanics, machine learning, to computational biology. I have earned multiple scholarships, including the Shelby Davis Full Scholarship, and numerous awards for academic excellence in several academic disciplines, including international and national awards in Mathematics, Physics, and Engineering.</p>
+            <p>My eagerness for innovation and problem-solving comes directly from my all-rounded approach to research. From modeling optical properties of nanocomposites in UCSC to developing convolutional neural network architectures for Alzheimer's detection, I will appreciate a good interface of theory and practical application. Given my commitment to social impact, I have co-founded initiatives such as "Help People with Disabilities" and pursued multiple nonprofit projects to alleviate social isolation.</p>
         </div>
      </section>
 
-    <!-- Services Section Design-->
      <section class="services" id="services">
-        <h2 class="heading">Internship Focus Areas for <span>Skill Enhancement</span></h2>
-        
+        <h2 class="heading">Core <span>Competencies</span></h2>
         <div class="services-container">
-
             <div class="services-box">
                 <i class='bx bxl-python'></i>
-                <h3>Artificial Intelligence and Machine Learning</h3>
-                <p> I am passionate about applying AI/ML to solve global challenges. 
-                    Seeking to enhance expertise in scalable AI solutions and impactful innovation.
-                </p>
+                <h3>Artificial Intelligence & Machine Learning</h3>
+                <p>Passionate about applying AI/ML to solve global challenges. Seeking to enhance expertise in scalable AI solutions and impactful innovation.</p>
             </div>
-
             <div class="services-box">
                 <i class='bx bx-code-alt' ></i>
-                <h3>Web Development</h3>
-                <p> I am skilled in HTML, CSS, JavaScript, and React, seeking to enhance full-stack development, 
-                    secure web practices, and cloud integration while delivering impactful, scalable applications.
-                </p>
+                <h3>Full-Stack Development</h3>
+                <p>Skilled in HTML, CSS, JavaScript, and React. Focused on building secure, scalable web applications with seamless cloud integration.</p>
             </div>
-
             <div class="services-box">
                 <i class='bx bxl-apple'></i>
-                <h3>App Development</h3>
-                <p> I have not had the opportunity to work on building an app, yet I am looking forward for the opportunity.
-                    I am hoping to find experience in this field.
-
-                    
-                </p>
+                <h3>Mobile App Development</h3>
+                <p>Eager to explore mobile development, applying my engineering mindset to create intuitive and powerful applications for iOS and Android platforms.</p>
             </div>
-
         </div>
-
      </section>
 
-     <!-- Portfolio Section Design-->
      <section class="portfolio" id="portfolio">
-        <h2 class="heading">Research <span>Projects</span></h2>
-    
+        <h2 class="heading">Latest <span>Projects</span></h2>
         <div class="portfolio-container">
             <div class="portfolio-box">
-                <img src="ttomatoleaf.jpg" alt="">
+                <img src="https://placehold.co/600x400/080b10/00aaff?text=AgriTech+AI" alt="Tomato Leaf Classification Project">
                 <div class="portfolio-layer">
-                    <h4>Tomato Leaf Classification Using Computer Vision and Deep
-                        Learning: Comparing Different EfficientNets</h4>
-                    <p>Agriculture is an essential field that includes crop production, plant and fruit
-                        growing, and livestock. Plant disease is a significant challenge in agriculture,
-                        which can drastically impact crop production and lead to reduced productivity
-                        and potentially severe shortages. 
-                        </p>
+                    <h4>Tomato Leaf Classification Using Computer Vision and Deep Learning</h4>
+                    <p>This study compares different EfficientNet models for classifying tomato plant diseases, a significant challenge in agriculture that impacts crop yield and food security.</p>
                     <a href="https://www.svedbergopen.com/files/1706098014_5_IJAIML202317061218IT_(p_61-79).pdf"><i class='bx bx-link-external'></i></a>
                 </div>
             </div>
-    
             <div class="portfolio-box">
-                <img src="breastcancer.jpg" alt="">
+                <img src="https://placehold.co/600x400/080b10/00aaff?text=Genetics" alt="Breast Cancer Research Project">
                 <div class="portfolio-layer">
                     <h4>Using Genetic Algorithm for Breast Cancer Feature Selection</h4>
-                    <p>Breast  cancer  has  been  one  of  the  most  widespread  cancer  types  in  women  worldwide.  Breast cancer  can  be  treated  when  detected  early;  
-                       otherwise,  it  has  one  of  the  highest  mortality  rates among cancer types. Many tools can be used for detection, but computer-based diagnosis systems 
-                       have  become  popular  as  they  are  cheaper  and  quicker. </p>
+                    <p>This research explores the use of genetic algorithms to select the most relevant features for breast cancer diagnosis, aiming to improve the accuracy of computer-based detection systems.</p>
                     <a href="https://journalirjo.com/index.php/IRJO/article/view/139/275"><i class='bx bx-link-external'></i></a>
                 </div>
             </div>
-    
             <div class="portfolio-box">
-                <img src="MRI.jpg" alt="">
+                <img src="https://placehold.co/600x400/080b10/00aaff?text=AI+Neuro" alt="Alzheimer's Research Project">
                 <div class="portfolio-layer">
                     <h4>Comparing different CNNs for the classification of Alzheimer’s Disease</h4>
-                    <p>Alzheimer's disease (AD) is a degenerative, incurable neurological disorder that progressively
-                        damages cognitive abilities. AD affects millions of people worldwide. The biopsy method is the
-                        most reliable method to identify AD, but it has the chance to cause irreparable harm. There are
-                        many non-invasive alternatives to biopsies that can be used to diagnose AD without undue risk.</p>
+                    <p>This paper evaluates various Convolutional Neural Network architectures for diagnosing Alzheimer's disease from non-invasive MRI scans, offering a safer alternative to biopsy.</p>
                     <a href="https://jhss.scholasticahq.com/article/84787-comparing-different-convolutional-neural-networks-for-the-classification-of-alzheimer-s-disease"><i class='bx bx-link-external'></i></a>
                 </div>
             </div>
-    
             <div class="portfolio-box">
-                <img src="transfer.jpg" alt="">
+                <img src="https://placehold.co/600x400/080b10/00aaff?text=Optics" alt="Transfer Matrix Modeling Project">
                 <div class="portfolio-layer">
                     <h4>Transfer Matrix Modeling Optical Properties of Short-Period Aluminum Oxide-Copper</h4>
-                    <p>The goal of this study is to use the transfer matrix method to analyze the reflectance of light shined onto thin film layers. 
-                        The thin film layers were generated by applying Sputtering Atomic Layer Augmented Deposition (SALAD) to create thin aluminum 
-                        oxide and copper films. </p>
+                    <p>This study utilizes the transfer matrix method to analyze light reflectance on thin film layers created with Sputtering Atomic Layer Augmented Deposition (SALAD).</p>
                     <a href="https://journaljamcs.com/index.php/JAMCS/article/view/1831"><i class='bx bx-link-external'></i></a>
                 </div>
             </div>
-
             <div class="portfolio-box">
-                <img src="alzheimerss.jpeg" alt="">
+                <img src="https://placehold.co/600x400/080b10/00aaff?text=AD+Treatment" alt="Alzheimer's Treatment Options Project">
                 <div class="portfolio-layer">
-                    <h4>Treatment options for Alzheimer’s Disease: An overview of the amyloid, tau, and alternate hypotheses</h4>
-                    <p>The accumulation of β-
-                        amyloid proteins in the brain is posited to be a pivotal factor in AD progression, though the exact
-                        mechanisms remain to be elucidated. This article focuses on various aspects, including
-                        Neurotransmitter Dysfunction, Ca2+ Homeostasis Dysregulation, the Cholinergic System,
-                        Amyloid-Based Therapy, the Tau Hypothesis, Liquid-Liquid Phase Separation (LLPS), and many more </p>
+                    <h4>Treatment options for Alzheimer’s Disease: An overview</h4>
+                    <p>This article provides a comprehensive overview of Alzheimer's treatment strategies, focusing on the amyloid, tau, and alternate hypotheses, including neurotransmitter dysfunction and Ca2+ homeostasis.</p>
                     <a href="https://jhss.scholasticahq.com/article/89250"><i class='bx bx-link-external'></i></a>
                 </div>
             </div>
-
             <div class="portfolio-box">
-                <img src="chem.jpg" alt="">
+                <img src="https://placehold.co/600x400/080b10/00aaff?text=Chemistry" alt="Sucrose Hydrolysis Project">
                 <div class="portfolio-layer">
                     <h4>The acid-catalyzed hydrolysis of sucrose</h4>
-                    <p>The rate constant of the acid-catalyzed hydrolysis of sucrose was determined using different
-                        concentrations of the catalyst, hydrochloric acid. An optical approach was followed using a
-                        polarimeter to measure the angle of rotation when the light was projected through sucrose
-                        solutions.</p>
+                    <p>This research determines the rate constant of sucrose hydrolysis using polarimetry to measure the angle of light rotation through sucrose solutions with different acid concentrations.</p>
                     <a href="https://jhss.scholasticahq.com/article/89250"><i class='bx bx-link-external'></i></a>
                 </div>
             </div>
-
         </div>
     </section>
     
-    <!-- Contact Section Design-->
-
     <section class="contact" id="contact">
-        <h2 class="heading">Contact <span>Me!</span></h2>
-
-
-        <form action="https://api.web3forms.com/submit" method="POST" method="post">
-            <div class="input-box">
-                <input type="text" placeholder="Full Name">
-                <input type="Email" placeholder="Email Address">
-            </div>
+        <h2 class="heading">Contact <span>Me</span></h2>
+        <form action="https://api.web3forms.com/submit" method="POST">
             <input type="hidden" name="access_key" value="fea7d166-544a-4023-9431-73e16defa73c">
             <div class="input-box">
-                <input type="Number" placeholder="Mobile Number">
-                <input type="text" placeholder="Email Subject">
+                <input type="text" name="name" placeholder="Full Name" required>
+                <input type="email" name="email" placeholder="Email Address" required>
             </div>
-            <textarea name="" id="" cols="30" rows="10" placeholder="Your Message"></textarea>
-            <input type="Submit" value="Send Message" class="btn">
+            <div class="input-box">
+                <input type="tel" name="phone" placeholder="Mobile Number">
+                <input type="text" name="subject" placeholder="Email Subject" required>
+            </div>
+            <textarea name="message" cols="30" rows="10" placeholder="Your Message" required></textarea>
+            <input type="submit" value="Send Message" class="btn">
         </form>
     </section>
 
-    <!-- Footer Design-->
     <footer class="footer">
         <div class="footer-text">
-            <p>Copyright &copy; 2025 by Kaan Eroltu</p>
+            <p>Copyright &copy; 2025 by Kaan Eroltu | All Rights Reserved.</p>
         </div>
         <div class="footer-iconTop">
             <a href="#home"><i class='bx bx-up-arrow-alt'></i></a>
@@ -213,11 +654,249 @@
     </footer>
 
     <script src="https://unpkg.com/scrollreveal"></script>
-
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cannon.js/0.6.2/cannon.min.js"></script>
 
-    <!-- custom js-->
-    <script src="script.js"></script>
+    <script>
+        let menuIcon = document.querySelector('#menu-icon');
+        let navbar = document.querySelector('.navbar');
+        menuIcon.onclick = () => {
+            menuIcon.classList.toggle('bx-x');
+            navbar.classList.toggle('active');
+        };
+
+        window.onscroll = () => {
+            let sections = document.querySelectorAll('section');
+            let navLinks = document.querySelectorAll('header nav a');
+            sections.forEach(sec => {
+                let top = window.scrollY;
+                let offset = sec.offsetTop - 150;
+                let height = sec.offsetHeight;
+                let id = sec.getAttribute('id');
+                if (top >= offset && top < offset + height) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href').includes(id)) {
+                            link.classList.add('active');
+                        }
+                    });
+                };
+            });
+            let header = document.querySelector('header');
+            header.classList.toggle('sticky', window.scrollY > 100);
+            menuIcon.classList.remove('bx-x');
+            navbar.classList.remove('active');
+        };
+
+        ScrollReveal({ reset: true, distance: '80px', duration: 2000, delay: 200 });
+        ScrollReveal().reveal('.home-content, .heading', { origin: 'top' });
+        ScrollReveal().reveal('.services-container, .portfolio-box, .contact form', { origin: 'bottom' });
+        ScrollReveal().reveal('.home-content h1, .about-img', { origin: 'left' });
+        ScrollReveal().reveal('.home-content p, .about-content', { origin: 'right' });
+
+        const typed = new Typed('.multiple-text', {
+            strings: ['Student', 'Computer Scientist', 'Electrical Engineer', 'AI Researcher'],
+            typeSpeed: 70,
+            backSpeed: 70,
+            backDelay: 1000,
+            loop: true,
+            preStringTyped: function(arrayPos, self) {
+                const currentString = self.strings[arrayPos];
+                const articleSpan = document.querySelector('.article');
+                const firstLetter = currentString.trim()[0].toLowerCase();
+                if (['a', 'e', 'i', 'o', 'u'].includes(firstLetter)) {
+                    articleSpan.textContent = 'an';
+                } else {
+                    articleSpan.textContent = 'a';
+                }
+            }
+        });
+
+        let scene, camera, renderer, clock;
+        let world, moonMesh, moonBody, meteor, meteorTrail;
+
+        function init() {
+            clock = new THREE.Clock();
+            world = new CANNON.World();
+            world.gravity.set(0, -20, 0);
+            world.broadphase = new CANNON.NaiveBroadphase();
+            world.solver.iterations = 10;
+
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 50;
+
+            const canvas = document.getElementById('bg-canvas');
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+            scene.add(ambientLight);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(5, 20, 15);
+            scene.add(directionalLight);
+
+            const starVertices = [];
+            for (let i = 0; i < 15000; i++) {
+                const x = (Math.random() - 0.5) * 2000;
+                const y = (Math.random() - 0.5) * 2000;
+                const z = (Math.random() - 0.5) * 2000;
+                starVertices.push(x, y, z);
+            }
+            const starGeometry = new THREE.BufferGeometry();
+            starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+            const starMaterial = new THREE.PointsMaterial({ color: 0xaaaaaa, size: 0.8 });
+            const stars = new THREE.Points(starGeometry, starMaterial);
+            scene.add(stars);
+
+            const moonGeometry = new THREE.SphereGeometry(3, 32, 32);
+            const moonMaterial = new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.8, roughness: 0.5, emissive: '#00aaff', emissiveIntensity: 0.1 });
+            moonMesh = new THREE.Mesh(moonGeometry, moonMaterial);
+            scene.add(moonMesh);
+
+            const moonShape = new CANNON.Sphere(3);
+            const physicsMaterial = new CANNON.Material('bouncy');
+            moonBody = new CANNON.Body({ mass: 1, shape: moonShape, material: physicsMaterial });
+            moonBody.position.set(Math.random() * 10 - 5, 40, 0);
+            world.addBody(moonBody);
+
+            const groundShape = new CANNON.Plane();
+            const groundBody = new CANNON.Body({ mass: 0, shape: groundShape, material: physicsMaterial });
+            groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
+            groundBody.position.y = -30;
+            world.addBody(groundBody);
+
+            const contactMaterial = new CANNON.ContactMaterial(physicsMaterial, physicsMaterial, { restitution: 0.7 });
+            world.addContactMaterial(contactMaterial);
+
+            createComplexMeteor();
+
+            window.addEventListener("resize", onWindowResize, false);
+            animate();
+        }
+
+        function createComplexMeteor() {
+            let meteorGeometry = new THREE.IcosahedronGeometry(2.5, 1);
+            const positionAttribute = meteorGeometry.getAttribute('position');
+            for (let i = 0; i < positionAttribute.count; i++) {
+                const vertex = new THREE.Vector3().fromBufferAttribute(positionAttribute, i);
+                vertex.multiplyScalar(1 + (Math.random() - 0.5) * 0.4);
+                positionAttribute.setXYZ(i, vertex.x, vertex.y, vertex.z);
+            }
+            meteorGeometry.computeVertexNormals();
+
+            const meteorMaterial = new THREE.MeshStandardMaterial({ color: 0x4a4a4a, roughness: 0.8, metalness: 0.5, emissive: 0xff4500, emissiveIntensity: 0.2 });
+            meteor = new THREE.Mesh(meteorGeometry, meteorMaterial);
+
+            const trailCount = 500;
+            const trailGeometry = new THREE.BufferGeometry();
+            const trailPositions = new Float32Array(trailCount * 3);
+            trailGeometry.setAttribute('position', new THREE.BufferAttribute(trailPositions, 3));
+
+            const trailMaterial = new THREE.PointsMaterial({ color: 0xff8c00, size: 0.5, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0.7 });
+            meteorTrail = new THREE.Points(trailGeometry, trailMaterial);
+            meteorTrail.userData.particles = [];
+            for (let i = 0; i < trailCount; i++) {
+                 meteorTrail.userData.particles.push({ position: new THREE.Vector3(0,0,0), velocity: new THREE.Vector3(0,0,0), lifetime: 0, maxLifetime: Math.random() * 2 + 1 });
+            }
+            meteor.add(meteorTrail);
+            resetMeteor();
+            scene.add(meteor);
+        }
+
+        function resetMeteor() {
+            const edge = Math.floor(Math.random() * 4); // 0: top, 1: bottom, 2: left, 3: right
+            const spawnPoint = new THREE.Vector3();
+            const targetPoint = new THREE.Vector3(
+                (Math.random() - 0.5) * 40,
+                (Math.random() - 0.5) * 40,
+                (Math.random() - 0.5) * 40
+            );
+            const distance = 120;
+
+            switch (edge) {
+                case 0: // Top
+                    spawnPoint.set(Math.random() * 160 - 80, distance, Math.random() * 160 - 80);
+                    break;
+                case 1: // Bottom
+                    spawnPoint.set(Math.random() * 160 - 80, -distance, Math.random() * 160 - 80);
+                    break;
+                case 2: // Left
+                    spawnPoint.set(-distance, Math.random() * 160 - 80, Math.random() * 160 - 80);
+                    break;
+                case 3: // Right
+                    spawnPoint.set(distance, Math.random() * 160 - 80, Math.random() * 160 - 80);
+                    break;
+            }
+            
+            meteor.position.copy(spawnPoint);
+            const velocity = new THREE.Vector3().subVectors(targetPoint, spawnPoint).normalize();
+            meteor.userData.velocity = velocity.multiplyScalar(35); // Speed
+        }
+
+        function updateMeteorTrail(deltaTime) {
+            const positions = meteorTrail.geometry.getAttribute('position').array;
+            let visibleParticles = 0;
+            for(const particle of meteorTrail.userData.particles) {
+                if(particle.lifetime > 0) {
+                    particle.position.addScaledVector(particle.velocity, deltaTime);
+                    particle.lifetime -= deltaTime;
+                    if (particle.lifetime > 0) {
+                        positions[visibleParticles * 3] = particle.position.x;
+                        positions[visibleParticles * 3 + 1] = particle.position.y;
+                        positions[visibleParticles * 3 + 2] = particle.position.z;
+                        visibleParticles++;
+                    }
+                }
+            }
+            const spawnRate = 5;
+            for(let i=0; i < spawnRate; i++){
+                const p = meteorTrail.userData.particles.find(p => p.lifetime <= 0);
+                if(p) {
+                    p.position.set(0,0,0);
+                    p.velocity.set((Math.random() - 0.5) * 5, (Math.random() - 0.5) * 5, (Math.random() - 0.5) * 5);
+                    p.lifetime = p.maxLifetime;
+                }
+            }
+            meteorTrail.geometry.setDrawRange(0, visibleParticles);
+            meteorTrail.geometry.getAttribute('position').needsUpdate = true;
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const deltaTime = clock.getDelta();
+            world.step(1 / 60, deltaTime, 3);
+            if (moonMesh && moonBody) {
+                moonMesh.position.copy(moonBody.position);
+                moonMesh.quaternion.copy(moonBody.quaternion);
+            }
+            if (moonBody.position.y < -100) {
+                 moonBody.position.set(Math.random() * 10 - 5, 40, 0);
+                 moonBody.velocity.set(0,0,0);
+            }
+            if(meteor) {
+                meteor.position.addScaledVector(meteor.userData.velocity, deltaTime);
+                meteor.rotation.x += 0.5 * deltaTime;
+                meteor.rotation.y += 0.7 * deltaTime;
+                updateMeteorTrail(deltaTime);
+                if(meteor.position.length() > 200) { // Reset if it's too far from the center
+                    resetMeteor();
+                }
+            }
+            const time = clock.getElapsedTime();
+            camera.position.x = Math.sin(time * 0.2) * 20;
+            camera.lookAt(scene.position);
+            renderer.render(scene, camera);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        init();
+    </script>
 </body>
-
 </html>
