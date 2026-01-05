@@ -523,11 +523,178 @@
         transform: translateY(0);
         }
     }
+
+    #pixelated-image-container {
+        width: 15vw;
+        min-width: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: floatAnimation 3s ease-in-out infinite;
+    }
+
+    #pixelated-canvas {
+        max-width: 100%;
+        height: auto;
+        border-radius: 2rem;
+        box-shadow: 0 0 3rem var(--glow-color);
+        border: 3px solid var(--main-color);
+        image-rendering: crisp-edges;
+    }
+
+    @media (max-width: 768px) {
+        #pixelated-image-container {
+            width: 70vw;
+        }
+    }
+
+    @media (max-width: 365px) {
+        #pixelated-image-container {
+            width: 90vw;
+        }
+    }
+
+    /* Scroll Progress Indicator */
+    .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--main-color), var(--glow-color));
+        z-index: 1000;
+        transition: width 0.1s ease;
+        box-shadow: 0 0 10px var(--glow-color);
+    }
+
+    /* Scroll to Top Button */
+    .scroll-top {
+        position: fixed;
+        bottom: 3rem;
+        right: 3rem;
+        width: 5rem;
+        height: 5rem;
+        background: var(--main-color);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s ease;
+        z-index: 99;
+        box-shadow: 0 0 2rem var(--glow-color);
+    }
+
+    .scroll-top.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .scroll-top:hover {
+        background: transparent;
+        border: 2px solid var(--main-color);
+        transform: translateY(-5px);
+    }
+
+    .scroll-top i {
+        font-size: 2.5rem;
+        color: var(--bg-color);
+        transition: 0.3s ease;
+    }
+
+    .scroll-top:hover i {
+        color: var(--main-color);
+    }
+
+    /* Loading Skeleton Styles */
+    .skeleton {
+        background: linear-gradient(90deg, var(--second-bg-color) 25%, rgba(0, 170, 255, 0.1) 50%, var(--second-bg-color) 75%);
+        background-size: 200% 100%;
+        animation: loading 1.5s infinite;
+        border-radius: 0.5rem;
+    }
+
+    @keyframes loading {
+        0% {
+            background-position: 200% 0;
+        }
+        100% {
+            background-position: -200% 0;
+        }
+    }
+
+    .portfolio-box.skeleton-box {
+        min-height: 300px;
+        background: var(--second-bg-color);
+    }
+
+    .skeleton-text {
+        height: 2rem;
+        margin: 1rem 0;
+        border-radius: 0.5rem;
+    }
+
+    .skeleton-title {
+        height: 3rem;
+        width: 70%;
+        margin: 1rem auto;
+        border-radius: 0.5rem;
+    }
+
+    /* Project Filter Buttons */
+    .filter-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        margin-bottom: 4rem;
+    }
+
+    .filter-btn {
+        padding: 1rem 2.5rem;
+        background: var(--second-bg-color);
+        border: 2px solid var(--main-color);
+        border-radius: 3rem;
+        color: var(--text-color);
+        font-size: 1.6rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+        background: var(--main-color);
+        color: var(--bg-color);
+        box-shadow: 0 0 2rem var(--glow-color);
+        transform: translateY(-3px);
+    }
+
+    .portfolio-box.hidden {
+        display: none;
+    }
+
+    /* 3D Canvas Container for Portfolio Item */
+    .canvas-3d {
+        width: 100%;
+        height: 100%;
+        min-height: 300px;
+    }
     </style>
 </head>
 <body>
 
     <canvas id="bg-canvas"></canvas>
+
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-top" id="scroll-top">
+        <i class='bx bx-up-arrow-alt'></i>
+    </div>
 
     <header class="header">
         <a href="#home" class="logo">Kaan Eroltu.</a>
@@ -558,7 +725,9 @@
 
     <section class="about" id="about">
         <div class="about-img">
-            <img src="https://i.ibb.co/HDsSwP3w/Whats-App-Image-2025-08-14-at-22-35-54.jpg" alt="Kaan Eroltu'nun Fotoğrafı">
+            <div id="pixelated-image-container">
+                <canvas id="pixelated-canvas"></canvas>
+            </div>
         </div>
         <div class="about-content">
             <h2 class="heading">About <span>Me</span></h2>
@@ -590,17 +759,37 @@
 
      <section class="portfolio" id="portfolio">
         <h2 class="heading">Latest <span>Projects</span></h2>
+
+        <!-- Filter Buttons -->
+        <div class="filter-container">
+            <button class="filter-btn active" data-filter="all">All Projects</button>
+            <button class="filter-btn" data-filter="ai-ml">AI & ML</button>
+            <button class="filter-btn" data-filter="web">Web Development</button>
+            <button class="filter-btn" data-filter="research">Research</button>
+            <button class="filter-btn" data-filter="3d">3D Experience</button>
+        </div>
+
         <div class="portfolio-container">
-            <div class="portfolio-box">
+            <!-- 3D Interactive Experience -->
+            <div class="portfolio-box" data-category="3d web">
+                <canvas class="canvas-3d" id="portfolio-3d-canvas"></canvas>
+                <div class="portfolio-layer">
+                    <h4>Interactive 3D Portfolio Showcase</h4>
+                    <p>An immersive 3D experience demonstrating advanced web graphics and interactive design using Three.js.</p>
+                    <a href="#portfolio"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div>
+
+            <div class="portfolio-box" data-category="ai-ml web">
                 <img src="https://placehold.co/600x400/080b10/00aaff?text=C" alt="Castrum AI">
                 <div class="portfolio-layer">
                     <h4>Castrum AI</h4>
                     <p>Castrum AI aims to transforms businesses with cutting-edge artificial intelligence.</p>
-                    <a href="hhttps://castrumai.com/"><i class='bx bx-link-external'></i></a>
+                    <a href="https://castrumai.com/"><i class='bx bx-link-external'></i></a>
                 </div>
             </div>
-        <div class="portfolio-container">
-            <div class="portfolio-box">
+
+            <div class="portfolio-box" data-category="ai-ml web">
                 <img src="https://placehold.co/600x400/080b10/00aaff?text=Email+Organizer" alt="Email Organizer">
                 <div class="portfolio-layer">
                     <h4>Email Organizer</h4>
@@ -608,8 +797,8 @@
                     <a href="https://github.com/kaan7305/email-organizer"><i class='bx bx-link-external'></i></a>
                 </div>
             </div>
-        <div class="portfolio-container">
-            <div class="portfolio-box">
+
+            <div class="portfolio-box" data-category="ai-ml research">
                 <img src="https://placehold.co/600x400/080b10/00aaff?text=AgriTech+AI" alt="Tomato Leaf Classification Project">
                 <div class="portfolio-layer">
                     <h4>Tomato Leaf Classification Using Computer Vision and Deep Learning</h4>
@@ -617,7 +806,8 @@
                     <a href="https://www.svedbergopen.com/files/1706098014_5_IJAIML202317061218IT_(p_61-79).pdf"><i class='bx bx-link-external'></i></a>
                 </div>
             </div>
-            <div class="portfolio-box">
+
+            <div class="portfolio-box" data-category="ai-ml research">
                 <img src="https://placehold.co/600x400/080b10/00aaff?text=Genetics" alt="Breast Cancer Research Project">
                 <div class="portfolio-layer">
                     <h4>Using Genetic Algorithm for Breast Cancer Feature Selection</h4>
@@ -625,15 +815,17 @@
                     <a href="https://journalirjo.com/index.php/IRJO/article/view/139/275"><i class='bx bx-link-external'></i></a>
                 </div>
             </div>
-            <div class="portfolio-box">
+
+            <div class="portfolio-box" data-category="ai-ml research">
                 <img src="https://placehold.co/600x400/080b10/00aaff?text=AI+Neuro" alt="Alzheimer's Research Project">
                 <div class="portfolio-layer">
-                    <h4>Comparing different CNNs for the classification of Alzheimer’s Disease</h4>
+                    <h4>Comparing different CNNs for the classification of Alzheimer's Disease</h4>
                     <p>This paper evaluates various Convolutional Neural Network architectures for diagnosing Alzheimer's disease.</p>
                     <a href="https://jhss.scholasticahq.com/article/84787-comparing-different-convolutional-neural-networks-for-the-classification-of-alzheimer-s-disease"><i class='bx bx-link-external'></i></a>
                 </div>
             </div>
-            <div class="portfolio-box">
+
+            <div class="portfolio-box" data-category="research">
                 <img src="https://placehold.co/600x400/080b10/00aaff?text=Optics" alt="Transfer Matrix Modeling Project">
                 <div class="portfolio-layer">
                     <h4>Transfer Matrix Modeling Optical Properties of Short-Period Aluminum Oxide-Copper</h4>
@@ -641,15 +833,17 @@
                     <a href="https://journaljamcs.com/index.php/JAMCS/article/view/1831"><i class='bx bx-link-external'></i></a>
                 </div>
             </div>
-            <div class="portfolio-box">
+
+            <div class="portfolio-box" data-category="research">
                 <img src="https://placehold.co/600x400/080b10/00aaff?text=AD+Treatment" alt="Alzheimer's Treatment Options Project">
                 <div class="portfolio-layer">
-                    <h4>Treatment options for Alzheimer’s Disease: An overview</h4>
+                    <h4>Treatment options for Alzheimer's Disease: An overview</h4>
                     <p>This article provides a comprehensive overview of Alzheimer's treatment strategies. </p>
                     <a href="https://jhss.scholasticahq.com/article/89250"><i class='bx bx-link-external'></i></a>
                 </div>
             </div>
-            <div class="portfolio-box">
+
+            <div class="portfolio-box" data-category="research">
                 <img src="https://placehold.co/600x400/080b10/00aaff?text=Chemistry" alt="Sucrose Hydrolysis Project">
                 <div class="portfolio-layer">
                     <h4>The acid-catalyzed hydrolysis of sucrose</h4>
@@ -930,6 +1124,369 @@
         }
 
         init();
+
+        // Pixel-by-pixel image reveal animation
+        function initPixelAnimation() {
+            const canvas = document.getElementById('pixelated-canvas');
+            if (!canvas) {
+                console.error('Canvas not found');
+                return;
+            }
+
+            const ctx = canvas.getContext('2d', { willReadFrequently: true });
+            const imageUrl = 'profile-image.jpg';
+
+            const img = new Image();
+
+            img.onload = function() {
+                console.log('Image loaded successfully', img.width, 'x', img.height);
+
+                // Set canvas size based on image
+                const maxWidth = 400;
+                const maxHeight = 500;
+                let width = img.width;
+                let height = img.height;
+
+                // Scale image to fit max dimensions while maintaining aspect ratio
+                if (width > maxWidth) {
+                    height = (height * maxWidth) / width;
+                    width = maxWidth;
+                }
+                if (height > maxHeight) {
+                    width = (width * maxHeight) / height;
+                    height = maxHeight;
+                }
+
+                width = Math.floor(width);
+                height = Math.floor(height);
+
+                canvas.width = width;
+                canvas.height = height;
+
+                console.log('Canvas size set to', width, 'x', height);
+
+                // Draw image to a temporary canvas to get pixel data
+                const tempCanvas = document.createElement('canvas');
+                const tempCtx = tempCanvas.getContext('2d', { willReadFrequently: true });
+                tempCanvas.width = width;
+                tempCanvas.height = height;
+                tempCtx.drawImage(img, 0, 0, width, height);
+
+                let imageData;
+                try {
+                    imageData = tempCtx.getImageData(0, 0, width, height);
+                    console.log('Image data extracted successfully');
+                } catch (e) {
+                    console.error('Error getting image data:', e);
+                    // Fallback: just draw the image normally
+                    ctx.drawImage(img, 0, 0, width, height);
+                    return;
+                }
+
+                // Create array of all pixel coordinates
+                const pixels = [];
+                for (let y = 0; y < height; y++) {
+                    for (let x = 0; x < width; x++) {
+                        pixels.push({ x, y });
+                    }
+                }
+
+                console.log('Total pixels:', pixels.length);
+
+                // Shuffle pixels for random reveal effect
+                for (let i = pixels.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [pixels[i], pixels[j]] = [pixels[j], pixels[i]];
+                }
+
+                // Clear canvas with dark background
+                ctx.fillStyle = '#111827';
+                ctx.fillRect(0, 0, width, height);
+
+                // Animation parameters
+                let currentPixel = 0;
+                let isAnimating = false;
+                const totalDuration = 2000; // 2 seconds
+                const pixelsPerFrame = Math.ceil(pixels.length / (totalDuration / 16)); // ~60fps
+
+                console.log('Pixels per frame:', pixelsPerFrame);
+
+                function animatePixels() {
+                    const endPixel = Math.min(currentPixel + pixelsPerFrame, pixels.length);
+
+                    // Draw pixels directly to canvas (black and white)
+                    for (let i = currentPixel; i < endPixel; i++) {
+                        const pixel = pixels[i];
+                        const sourceIndex = (pixel.y * width + pixel.x) * 4;
+
+                        const r = imageData.data[sourceIndex];
+                        const g = imageData.data[sourceIndex + 1];
+                        const b = imageData.data[sourceIndex + 2];
+                        const a = imageData.data[sourceIndex + 3];
+
+                        // Convert to grayscale using luminance formula
+                        const gray = Math.floor(0.299 * r + 0.587 * g + 0.114 * b);
+
+                        ctx.fillStyle = `rgba(${gray}, ${gray}, ${gray}, ${a / 255})`;
+                        ctx.fillRect(pixel.x, pixel.y, 1, 1);
+                    }
+
+                    currentPixel = endPixel;
+
+                    if (currentPixel < pixels.length) {
+                        requestAnimationFrame(animatePixels);
+                    } else {
+                        console.log('Animation complete!');
+                        isAnimating = false;
+                    }
+                }
+
+                function resetAnimation() {
+                    currentPixel = 0;
+                    ctx.fillStyle = '#111827';
+                    ctx.fillRect(0, 0, width, height);
+                }
+
+                // Start animation when about section comes into view
+                const aboutSection = document.getElementById('about');
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && !isAnimating) {
+                            console.log('Starting pixel animation');
+                            resetAnimation();
+                            isAnimating = true;
+                            animatePixels();
+                        } else if (!entry.isIntersecting && isAnimating) {
+                            // Reset when scrolling away
+                            console.log('Resetting animation');
+                            resetAnimation();
+                            isAnimating = false;
+                        }
+                    });
+                }, { threshold: 0.2 });
+
+                observer.observe(aboutSection);
+            };
+
+            img.onerror = function(e) {
+                console.error('Failed to load image:', e);
+                // Fallback: display a placeholder
+                canvas.width = 300;
+                canvas.height = 400;
+                ctx.fillStyle = '#111827';
+                ctx.fillRect(0, 0, 300, 400);
+                ctx.fillStyle = '#00aaff';
+                ctx.font = '20px Poppins';
+                ctx.textAlign = 'center';
+                ctx.fillText('Image Loading...', 150, 200);
+            };
+
+            img.src = imageUrl;
+        }
+
+        // Initialize after page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initPixelAnimation);
+        } else {
+            initPixelAnimation();
+        }
+
+        // ===== SCROLL PROGRESS INDICATOR =====
+        const scrollProgress = document.getElementById('scroll-progress');
+
+        function updateScrollProgress() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercentage = (scrollTop / scrollHeight) * 100;
+            scrollProgress.style.width = scrollPercentage + '%';
+        }
+
+        window.addEventListener('scroll', updateScrollProgress);
+
+        // ===== SCROLL TO TOP BUTTON =====
+        const scrollTopBtn = document.getElementById('scroll-top');
+
+        function toggleScrollTopButton() {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('active');
+            } else {
+                scrollTopBtn.classList.remove('active');
+            }
+        }
+
+        window.addEventListener('scroll', toggleScrollTopButton);
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // ===== PROJECT FILTERING =====
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const portfolioBoxes = document.querySelectorAll('.portfolio-box');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const filterValue = button.getAttribute('data-filter');
+
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                // Filter portfolio items
+                portfolioBoxes.forEach(box => {
+                    const categories = box.getAttribute('data-category');
+
+                    if (filterValue === 'all') {
+                        box.classList.remove('hidden');
+                        // Trigger animation
+                        box.style.animation = 'none';
+                        setTimeout(() => {
+                            box.style.animation = '';
+                        }, 10);
+                    } else {
+                        if (categories && categories.includes(filterValue)) {
+                            box.classList.remove('hidden');
+                            box.style.animation = 'none';
+                            setTimeout(() => {
+                                box.style.animation = '';
+                            }, 10);
+                        } else {
+                            box.classList.add('hidden');
+                        }
+                    }
+                });
+            });
+        });
+
+        // ===== 3D PORTFOLIO CANVAS =====
+        function init3DPortfolio() {
+            const canvas = document.getElementById('portfolio-3d-canvas');
+            if (!canvas) return;
+
+            const scene3D = new THREE.Scene();
+            const camera3D = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+            const renderer3D = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+
+            renderer3D.setSize(canvas.clientWidth, canvas.clientHeight);
+            camera3D.position.z = 5;
+
+            // Add ambient light
+            const ambientLight3D = new THREE.AmbientLight(0xffffff, 0.5);
+            scene3D.add(ambientLight3D);
+
+            // Add directional light
+            const directionalLight3D = new THREE.DirectionalLight(0x00aaff, 1);
+            directionalLight3D.position.set(5, 5, 5);
+            scene3D.add(directionalLight3D);
+
+            // Create multiple rotating geometric shapes
+            const geometries = [
+                new THREE.TorusKnotGeometry(0.8, 0.3, 100, 16),
+                new THREE.OctahedronGeometry(1),
+                new THREE.IcosahedronGeometry(1),
+            ];
+
+            const materials = [
+                new THREE.MeshStandardMaterial({
+                    color: 0x00aaff,
+                    metalness: 0.8,
+                    roughness: 0.2,
+                    emissive: 0x00aaff,
+                    emissiveIntensity: 0.3
+                }),
+                new THREE.MeshStandardMaterial({
+                    color: 0x0088cc,
+                    metalness: 0.6,
+                    roughness: 0.3,
+                    wireframe: false
+                }),
+                new THREE.MeshStandardMaterial({
+                    color: 0x00ddff,
+                    metalness: 0.7,
+                    roughness: 0.25
+                }),
+            ];
+
+            const meshes = [];
+            geometries.forEach((geometry, index) => {
+                const mesh = new THREE.Mesh(geometry, materials[index]);
+                mesh.position.x = (index - 1) * 2.5;
+                scene3D.add(mesh);
+                meshes.push(mesh);
+            });
+
+            // Add particles
+            const particleCount = 1000;
+            const particleGeometry = new THREE.BufferGeometry();
+            const particlePositions = new Float32Array(particleCount * 3);
+
+            for (let i = 0; i < particleCount * 3; i++) {
+                particlePositions[i] = (Math.random() - 0.5) * 20;
+            }
+
+            particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+            const particleMaterial = new THREE.PointsMaterial({
+                color: 0x00aaff,
+                size: 0.05,
+                transparent: true,
+                opacity: 0.6
+            });
+            const particles = new THREE.Points(particleGeometry, particleMaterial);
+            scene3D.add(particles);
+
+            // Animation loop
+            let animationId;
+            function animate3D() {
+                animationId = requestAnimationFrame(animate3D);
+
+                // Rotate meshes
+                meshes.forEach((mesh, index) => {
+                    mesh.rotation.x += 0.01 * (index + 1);
+                    mesh.rotation.y += 0.01 * (index + 1);
+                });
+
+                // Rotate particles slowly
+                particles.rotation.y += 0.001;
+
+                renderer3D.render(scene3D, camera3D);
+            }
+
+            // Handle resize
+            const resizeObserver = new ResizeObserver(() => {
+                const width = canvas.clientWidth;
+                const height = canvas.clientHeight;
+                camera3D.aspect = width / height;
+                camera3D.updateProjectionMatrix();
+                renderer3D.setSize(width, height);
+            });
+            resizeObserver.observe(canvas);
+
+            // Start animation when visible
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animate3D();
+                    } else {
+                        if (animationId) {
+                            cancelAnimationFrame(animationId);
+                        }
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            observer.observe(canvas);
+        }
+
+        // Initialize 3D portfolio after page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init3DPortfolio);
+        } else {
+            init3DPortfolio();
+        }
     </script>
 </body>
 </html>
